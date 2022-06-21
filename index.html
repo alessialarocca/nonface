@@ -1,33 +1,16 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nonface</title>
-    <style>
-        html {
-            height: 100vh;
-        }
-        iframe {
-            display: block;
-            height: 100vh;
-            width: 100vw;
-            border: 0;
-        }
-        body {
-            margin: 0;
-            padding: 0; 
-        }
-    </style>
+    <link rel="stylesheet" href="main.css">
 </head>
 
 <body>
     <iframe src="start.html"></iframe>
 
-    <!-- camera nascosta/visibile -->
-    <canvas hidden id="canvas"></canvas>  
-    <!-- <canvas id="canvas"></canvas>  -->
+    <canvas hidden id="canvas"></canvas> 
 
     <pre id="label-container"></pre>
 
@@ -37,11 +20,37 @@
 
         let model, webcam, ctx, labelContainer, maxPredictions;
 
+        function hover(direzione){
+            const iframe = document.querySelector("iframe")
+            const arrows = iframe.contentWindow.document.querySelectorAll(".freccia")
+            const dx = iframe.contentWindow.document.querySelector(".freccia_dx")
+            const sx = iframe.contentWindow.document.querySelector(".freccia_sx")
+            const so = iframe.contentWindow.document.querySelector(".freccia_so")
+            const sa = iframe.contentWindow.document.querySelector(".freccia_sa")
+
+            for (let i=0; i<arrows.length; i++){
+                arrows[i].style.filter = "invert(0%)"
+            }
+            
+            if (direzione == "destra") {
+                dx.style.filter = "invert(98%)";
+            }
+            else if (direzione == "sinistra"){
+                sx.style.filter = "invert(98%)";
+            }
+            else if (direzione == "sotto"){
+                so.style.filter = "invert(98%)";
+            }
+            else if (direzione == "sopra"){
+                sa.style.filter = "invert(98%)";
+            }
+        }
+
         function naviga(direzione) {
 
             const frame = document.querySelector('iframe')
             const doc = frame.contentWindow.document
-           
+
 
             if (direzione == "destra") {
                 const a = doc.querySelector(".freccia_dx")
@@ -60,14 +69,13 @@
                 if (a) frame.src = a.href
             }
         }
-        
+
         const classCounter = {
             count: 0,
             name: "",
         }
 
-        //inizializzazione webcam 
-        //init()
+        init()
 
         async function init() {
             const URL = "https://teachablemachine.withgoogle.com/models/69PJr3y_b/";
@@ -78,9 +86,9 @@
             maxPredictions = model.getTotalClasses();
 
             const size = 200;
-            const flip = true; 
-            webcam = new tmPose.Webcam(size, size, flip); 
-            await webcam.setup(); 
+            const flip = true;
+            webcam = new tmPose.Webcam(size, size, flip);
+            await webcam.setup();
             await webcam.play();
             window.requestAnimationFrame(loop);
 
@@ -123,12 +131,14 @@
                 classCounter.count = 0
                 naviga(classCounter.name)
             }
+             if (classCounter.count > 2) {
+                hover(name);
+                console.log(name)
+            }
 
-            labelContainer.innerHTML = classCounter.name + "   " + classCounter.count
-
-            drawPose(pose);
+            drawPose(pose);  
         }
-
+       
         function drawPose(pose) {
             if (webcam.canvas) {
                 ctx.drawImage(webcam.canvas, 0, 0);

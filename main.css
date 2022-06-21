@@ -1,3 +1,16 @@
+html {
+    height: 100vh;
+}
+iframe {
+    display: block;
+    height: 100vh;
+    width: 100vw;
+    border: 0;
+}
+body {
+    margin: 0;
+    padding: 0; 
+}
 .titolo {
     color: #F9F0FA;
     position: absolute;
@@ -79,6 +92,7 @@
     width: 50px;
     height: 25px;
     right: 20px;
+    top: 10px;
     text-align: right;  
 }
 .index:hover {
@@ -126,6 +140,7 @@
     position: fixed;
     top: 50%;
     margin-top: -28.5px;
+    left: 10px;
 }
 .freccia_sx:hover{
     filter: drop-shadow(0 0 #000);
@@ -135,7 +150,7 @@
     position: fixed;
     top: 50%;
     margin-top: -28.5px;
-    right: 7px;
+    right: 10px;
 }
 .freccia_dx:hover{
     filter: drop-shadow(0 0 #000);
@@ -143,7 +158,7 @@
 }
 .freccia_so {
     position: fixed;
-    bottom: 7px;
+    bottom: 10px;
     left: 50%;
     margin-left: -28.5px;
 }
@@ -153,7 +168,7 @@
 }
 .freccia_sa {
     position: fixed;
-    top: 7px;
+    top: 10px;
     left: 50%;
     margin-left: -28.5px;
 }
